@@ -2,14 +2,30 @@ const db = require('../../db/db')
 const database = db()
 const admin = require('firebase-admin');
 const {PythonShell} =require('python-shell'); 
+const {Storage} = require('@google-cloud/storage');
+const bucketName = 'leaguetok.appspot.com';
+const storage = new Storage({keyFilename: 'leaguetok-315613-ac56613e3bf4.json'});
 const ImitationVideo = require('../models/imitationVideo');
 const IMITATION_VIDEOS_COLL = "imitationVideos";
 const USERS_COLL = "users"
 
 module.exports = {
-    createVideo: async(req, res) => {
+  
+  moveFile: async(src, dst) => {
+    // Moves the file within the bucket
+    await storage.bucket(bucketName).file(src).move(dst);
+    const url = await storage.bucket(bucketName).file(dst).getSignedUrl({
+      action: 'read',
+      expires: '03-09-2491'
+    });
+    return url[0];
+  },
+  
+  createVideo: async(req, res) => {
     const { sourceId, link, uid } = req.body;
     var timestamp = admin.firestore.FieldValue.serverTimestamp();
+    const srcFileName = 'videos/Imitations/' + uid + '_' + sourceId + '_new';
+    const destFileName = 'videos/Imitations/' + uid + '_' + sourceId;
 
 //  Check if uid and sourceId allready exits in the db. 
 //  If so, update the record instead of creating a new one.
@@ -63,6 +79,9 @@ module.exports = {
         if (isNew) {
           // imitVideo.score = Math.round(Number(result[0]));
           imitVideo.score = randomScore;
+          // Change to default name in storage            
+          const url = module.exports.moveFile(srcFileName, destFileName).catch(console.error);
+          imitVideo.url = url;
           await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update(imitVideo.getObject());
 
         } else {
@@ -73,11 +92,14 @@ module.exports = {
 
             // imitVideo.score = Number(result[0])
             imitVideo.score = randomScore
-    
+            
+            // Change to default name in storage            
+            const url = await module.exports.moveFile(srcFileName, destFileName).catch(console.error);
+
             try{
               await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update({
                 score: Math.round(imitVideo.score), 
-                url: link, 
+                url: url, 
                 uploadDate: timestamp,
                 lastUpdated: timestamp 
               });

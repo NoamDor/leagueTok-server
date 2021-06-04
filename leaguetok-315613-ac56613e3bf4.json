@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "leaguetok-315613",
+  "private_key_id": "ac56613e3bf444537a356324eb7d61458f5c715b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDu0FA6hD9/9fMg\n5cTVOp2uiDPWPuvQZIoYa24OJx1htAKdzKSLLVrpedT4ZXTGY7OcxTsuO3UAUldP\n7aJUw6FFxG3sBjUT/2tPSna4SHc50Ex1WRn5anreDtiV2LKjlpxWwrZ5nL2K99GH\nbXBH9J3Bm9yaztrQBRjsEv33xrYVT9BjoosM9HcdHI3oVLaVPf1m3W/e4nDRJqNk\nCjqOeNr97KH04wDbgk9FajfKfpV3iWjv/hEFcUw/Gj7dIHoFOMXxDasdvxjFI80r\ntWPiL4+A8nB6paIuJMqgEIvbZym+562MREhDA/xw56OakTXcEdVn4VC4sRw1INil\n7RvoVzp9AgMBAAECggEAGmPyTbkiFEevZa4GfaLD3I7oHY+n+wg1O4QZrh4z8MFV\n/a6o60loj777IjUB/c90QImKI+6FnDK9O9Owmenhd0aA+DFqaaqS5vj9XBmD9WNX\no6skQ+v4pnPhCtQez5Wb8rmDNTa1Ondu0+ar3wPA8C2DaCceRpkdmy7xGlG++uU3\nn8Ct7WKX/S4BkvKLIsWFXaDR7R9PH0odoFywWZlVbcdtJ7kXvxWOhNVi/ToZS5Ca\no5Tk4dVJ/6yRGA2iEdSnhnig0J8QEepGqdvl0jMHcxnKELs+pQLRM8M3TvKNSGQA\nM542nC+HAClkLfn8oV1j2j0aXU19r0Ogo7boyRHc8QKBgQD+xN41jQr+RzZRh+UY\n4yG3Wc/q77uMB9S+QOGReLRz37/Bn8oYjI3WfwhW7+PlaoWolC4JqzxHOb/+g7UG\nFaELHTuaZzbROsRVrb486hhU0GT0mjY2NnTLQrwoLGF+8bvjU5RChQposHXPGqTD\nx+uyzbGO8Hj10moOqLZry4U9UQKBgQDv97WzzB8wHWHdpTXhdvMmawBnN5/83SRM\niApDLxHpU9tHB/e+PylLwQ6T8PMy2c6/nlz2hwgEv44rFUl6njRcycIzl8HdFyS5\nZxfQ/XyTb3WgepziQoVVaG6Np1/L+kqwlLy0T/m6yX0e3jV4mMrHcZmBjtGvXANr\nGAO+ESZvbQKBgBT0AAqLdRIArVj7Qj5Pv+AihNUfrl8P7dFP6L1cHgtBpbW4/JgU\nRz4S6I6t4CJoJmH8/eRRrv10pHO8RVEgykPtvY8vWfTPToJ1baX44tNm6EatwDOp\nOuXUsUDklYgpPXiu0Qy/gGGn0aic2lw3vwzPmgDVij09dveJrKck7+phAoGAMn4u\n75w928Py+c5vnfeHhkfxl8Zulah6oNfnQOfAnxYUB8g3awKjT9tZk+uZYNPP2yYZ\nbY5QM5+S7KHYCkMLxZJ2mKCQHFNoWNLGgiU0d1l2qMPkCv/wSl5lFM1pLOSHnsxN\nQKurYpBPEZW0LqIH2RugL1C78mgsF/a/oti8+6kCgYBHx4XbGiESvATQQ5Ts1vpn\nxpO+G/VTe4aJluPDCVcQLZsifmYRUiznWskEUY/7rsFe5neegGpa/BQtTRlas0po\n5STFR3WFIjG2//1iXTaHYGpQwn5GunPzZTCzhkF+zG1q0o9KK7Uz6qtGeHsnh0z+\nSp5yq1EGROyoQwdNt2ZMzg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "leaguetok@leaguetok-315613.iam.gserviceaccount.com",
+  "client_id": "109758111620212843772",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/leaguetok%40leaguetok-315613.iam.gserviceaccount.com"
+}
