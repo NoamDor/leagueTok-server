@@ -26,11 +26,11 @@ module.exports = {
     
     snapshot.forEach((doc) => {
         data = doc.data();
-//      ImitVideo exists
+        //ImitVideo exists
         imitVideo = new ImitationVideo(doc.id, data.url, data.uid, data.sourceId, data.score, data.uploadDate, data.lastUpdated,
                                        data.isDeleted);
     });
-    // });
+
 
 //  ImitVideo does not exists
     if (imitVideo == null) {
@@ -43,11 +43,105 @@ module.exports = {
         console.log('Failed')
         res.status(500)
         res.send('failed')
+        return;
       }
-    } 
+    }
+    
+    //Create new folder in videos directory for imitations if doesn't exist
+    const imitationsPath = `C:\\collage\\final\\leagueTok-server\\videos\\${sourceId}\\Imitations`;
+
+    try {
+      if (!fs.existsSync(`${imitationsPath}`)) {
+          fs.mkdirSync(`${imitationsPath}`);      
+      }
+      console.log(`Directory created successfully! - ${imitationsPath}`);
+    } catch (error) {
+        console.log(`Directory Create Failed! - ${imitationsPath} \n error- ${error}` );
+    }
+
+    //Create directory for the imitation video if doesn't exist
+    try {
+      if (!fs.existsSync(`${imitationsPath}\\${imitVideo.id}`)) {
+        fs.mkdirSync(`${imitationsPath}\\${imitVideo.id}`);
+        console.log(`Directory created successfully! - ${imitationsPath}\\${imitVideo.id}`);
+      }
+    } catch (error) {
+        console.log('Directory Create Failed!');
+        res.status(500);
+        return res.send(`failed create directory ${imitationsPath}\\${imitVideo.id} \n error ${error}`);
+    }
+
+    //Download imitation video 
+    try {
+      exec(`curl.exe --output "${imitVideo.id}.mp4" --url "${link}"`,
+            {
+                cwd: `${imitationsPath}\\${imitVideo.id}`
+            }, async (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+            });
+    } catch (error) {
+        console.log(`curl video: ${error}`);
+        res.status(500)
+        res.send('failed')
+        return;
+    }
+
+     //Run OpenPose 
+     exec(`bin\\OpenPoseDemo.exe --video "${imitationsPath}\\${imitVideo.id}\\${imitVideo.id}.mp4" --write_json "${imitationsPath}\\${imitVideo.id}\\openpose" --net_resolution 320x320 --part_candidates`,
+     {
+         cwd: 'C:\\collage\\final\\openpose\\openposeGPU'
+     }, async (error, stdout, stderr) => {
+         if (error) {
+             console.log(`error: ${error.message}`);
+             return;
+         }
+         if (stderr) {
+             console.log(`stderr: ${stderr}`);
+             return;
+         }
+         console.log(`stdout: ${stdout}`);
+         let options = { 
+           args: [`./videos/${sourceId}/openpose`, `${imitationsPath}/${imitVideo.id}/openpose`] //An argument which can be accessed in the script using sys.argv[1]
+         }; 
+     
+         try{
+           PythonShell.run('./scripts/leagueTokOpenPose.py', options, async (err, result)=>{ 
+             if (err){
+               console.log(err)
+               res.send('Failed on python');
+               return;
+             }
+             imitVideo.score = Number(result[0])
+     
+             try{
+               await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update(imitVideo.getObject());
+             } catch(err){
+               console.log('Failed')
+               res.status(500)
+               res.send('failed')
+               return;
+             }
+     
+             res.send({"result": result[0]})
+           });
+         } catch(err){
+           console.log(err)
+           res.status(500)
+           res.send('python failed')
+           return;
+         }
+       })
 
     let options = { 
-      args: ["./videos/1/openpose", "./videos/1/Imitations/1/openpose"] //An argument which can be accessed in the script using sys.argv[1]
+      args: [`./videos/${sourceId}/openpose`, `${imitationsPath}/${imitVideo.id}/openpose`] //An argument which can be accessed in the script using sys.argv[1]
     }; 
 
     try{
@@ -57,22 +151,22 @@ module.exports = {
           res.send('Failed on python');
           return;
         }
-        var randomScore = Math.floor(Math.random() * 101);
+        const pythonScore = Math.round(Number(result[0]));
         // var randomScore = 69;
 //      If the record is new
         if (isNew) {
           // imitVideo.score = Math.round(Number(result[0]));
-          imitVideo.score = randomScore;
+          imitVideo.score = pythonScore;
           await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update(imitVideo.getObject());
 
         } else {
 //        The record is not new
 //        Does this dance better than what exists already? If yes update, else don't. 
           // if (imitVideo.score < Number(result[0])) {
-            if (imitVideo.score < randomScore) {
+            if (imitVideo.score < pythonScore) {
 
             // imitVideo.score = Number(result[0])
-            imitVideo.score = randomScore
+            imitVideo.score = pythonScore
     
             try{
               await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update({
@@ -94,14 +188,14 @@ module.exports = {
               "title": "Are you ready?",
               "message": "Tap here to find out your score",
               // "score": (Math.round(Number(result[0]))).toString(),
-              "score": randomScore.toString(),
+              "score": pythonScore.toString(),
               "sourceId": sourceId
            },
           "token": deviceToken
         });
 
-        // res.send({"result": (Math.round(Number(result[0]))).toString()})
-        res.send({"result": randomScore.toString()})
+        res.send({"result": (Math.round(Number(result[0]))).toString()})
+        //res.send({"result": randomScore.toString()})
         
 
       });
