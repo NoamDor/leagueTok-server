@@ -1,10 +1,11 @@
 class User { 
-    constructor(id, name, photoUrl, lastUpdated, isDeleted) { 
+    constructor(id, name, photoUrl, lastUpdated, isDeleted, isAdmin) { 
         this.id = id
         this.name = name;
         this.photoUrl = photoUrl;
         this.lastUpdated = lastUpdated;
         this.isDeleted = isDeleted;
+        this.isAdmin = isAdmin
     }
 
     getObject() {
@@ -12,7 +13,8 @@ class User {
             name: this.name,
             photoUrl: this.photoUrl,
             lastUpdated: this.lastUpdated,
-            isDeleted: this.isDeleted
+            isDeleted: this.isDeleted,
+            isAdmin: this.isAdmin
         }   
     }
 }
