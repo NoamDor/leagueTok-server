@@ -12,12 +12,17 @@ module.exports = {
         var timestamp = admin.firestore.FieldValue.serverTimestamp();
         const ref = database.collection('users')
 
-        const snapshot = await ref.where('uid', '==', uid).get();
+        const snapshot = await ref.doc(uid).get();
 
         if (!snapshot.empty) {
-            console.log('User already exists');
+            // console.log('User already exists');
+            // return res.status(200).json({
+            //     message: 'User already exists'
+            // })
+            
+            // sign in with google get you here every time
             return res.status(200).json({
-                message: 'User already exists'
+                message: 'User added',
             })
         }
 
