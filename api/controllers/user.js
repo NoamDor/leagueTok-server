@@ -25,7 +25,8 @@ module.exports = {
             name: fullName,
             photoUrl: photoUrl,
             lastUpdated: timestamp,
-            isDeleted: false
+            isDeleted: false,
+            isAdmin: false
         });
 
         return res.status(200).json({
@@ -43,7 +44,8 @@ module.exports = {
                 data.name,
                 data.photoUrl,
                 data.lastUpdated._seconds, 
-                data.isDeleted
+                data.isDeleted,
+                data.isAdmin
             ));
         });
     
