@@ -67,11 +67,29 @@ module.exports = {
         
         if (docUser.exists) {
             await database.collection(USERS_COLL).doc(uid).update({ deviceToken: token });
-            return res.sendStatus(200);
+            return res.status(200).json({ message: 'user changed' });
 
         }
         else {
-            return res.status(404).send("user not found")
+            return res.status(404).json({ message: 'user not found' });
+        }
+    },
+    setIsAdmin: async (req, res) => {
+        const { uid, isAdmin } = req.body;
+        const docUser = await database.collection(USERS_COLL).doc(uid).get();
+        
+        if (docUser.exists) {
+            var timestamp = admin.firestore.FieldValue.serverTimestamp();
+            await database.collection(USERS_COLL).doc(uid).update({ 
+                lastUpdated: timestamp,
+                isAdmin: isAdmin 
+            });
+
+            return res.status(200).json({ message: 'user changed' });
+
+        }
+        else {
+            return res.status(404).json({ message: 'user not found' });
         }
     },
 }
