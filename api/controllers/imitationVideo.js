@@ -92,7 +92,7 @@ module.exports = {
     }
     
     //Create new folder in videos directory for imitations if doesn't exist
-    const imitationsPath = `C:\\collage\\final\\server\\leagueTok-server\\videos\\${sourceId}\\Imitations`;
+    const imitationsPath = `C:\\collage\\final\\leagueTok-server\\videos\\${sourceId}\\Imitations`;
 
     try {
       if (!fs.existsSync(`${imitationsPath}`)) {
