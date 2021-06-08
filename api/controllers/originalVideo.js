@@ -3,6 +3,7 @@ const OriginalVideo = require('../models/originalVideo');
 const admin = require('firebase-admin');
 const database = db();
 const ORIGINAL_VIDEOS_COLL = "originalVideos";
+const ORIG_UPDATES_TOPIC = "origVideoUpdates";
 
 module.exports = {
     getAll: async (req, res) => {
@@ -30,6 +31,16 @@ module.exports = {
         var timestamp = admin.firestore.FieldValue.serverTimestamp();
         var origVideo = new OriginalVideo(null, name, uri, performer, timestamp, timestamp, false);
         origVideo.id = (await database.collection(ORIGINAL_VIDEOS_COLL).add(origVideo.getObject())).id;
+
+        // Send push notification to topic
+        await admin.messaging().send({
+            "data": {
+                "title": "New videos are here",
+                "message": "Tap here to try them"
+             },
+            "topic": ORIG_UPDATES_TOPIC
+          });
+
         res.status(200).send({ id: origVideo.id });
     }
 }
