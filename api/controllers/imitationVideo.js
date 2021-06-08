@@ -80,7 +80,7 @@ module.exports = {
           // imitVideo.score = Math.round(Number(result[0]));
           imitVideo.score = randomScore;
           // Change to default name in storage            
-          const url = module.exports.moveFile(srcFileName, destFileName).catch(console.error);
+          const url = await module.exports.moveFile(srcFileName, destFileName).catch(console.error);
           imitVideo.url = url;
           await database.collection(IMITATION_VIDEOS_COLL).doc(imitVideo.id).update(imitVideo.getObject());
 
