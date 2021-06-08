@@ -216,7 +216,7 @@ module.exports = {
                             console.log(`remove imitation content error : ${error}`)
                             
                           }
-                          
+                         res.status(200)
                          res.send({"result": pythonScore.toString()})
                          return;
 
