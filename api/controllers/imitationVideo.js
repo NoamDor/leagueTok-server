@@ -123,6 +123,7 @@ module.exports = {
             }, async (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
+                    res.status(500).send({"message": "curl video error"})
                     return;
                 }
                 if (stderr) {
@@ -136,6 +137,7 @@ module.exports = {
                 }, async (error, stdout, stderr) => { 
                     if (error) {
                         console.log(`error: ${error.message}`);
+                        res.status(500).send({"message": "openpose error"})
                         return;
                     }
                     if (stderr) {
@@ -152,13 +154,13 @@ module.exports = {
                         if (err){
                           console.log(err)
                           res.send('Failed on python get score');
-                          s.rmdirSync(`${imitationsPath}\\${imitVideo.id}`, { recursive: true });
+                          fs.rmdirSync(`${imitationsPath}\\${imitVideo.id}`, { recursive: true });
                           return;
                         }
                         let pythonScore = Math.round(Number(result[0]));
                         try {
                           options = {
-                            args: [`${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose.avi`, `${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose`]
+                            args: [`${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose.avi`, `${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose`, `${imitationsPath}\\${imitVideo.id}\\${imitVideo.id}.mp4`]
                           }
                           //Convert avi to mp4
                           PythonShell.run('./scripts/convertAviToMp4.py', options, async (err, result)=>{ 
