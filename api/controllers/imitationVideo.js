@@ -160,7 +160,7 @@ module.exports = {
                         let pythonScore = Math.round(Number(result[0]));
                         try {
                           options = {
-                            args: [`${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose.avi`, `${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose`, `${imitationsPath}\\${imitVideo.id}\\${imitVideo.id}.mp4`]
+                            args: [`${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose.avi`, `${imitationsPath}\\${imitVideo.id}\\${uid}_${sourceId}_openPose.mp4`, `${imitationsPath}\\${imitVideo.id}\\${imitVideo.id}.mp4`]
                           }
                           //Convert avi to mp4
                           PythonShell.run('./scripts/convertAviToMp4.py', options, async (err, result)=>{ 
