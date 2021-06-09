@@ -81,12 +81,13 @@ def normalize_frame(vertices):
     y_min = min(vertex[1] for i, vertex in vertices.items() if len(vertex) > 0)
     y_max = max(vertex[1] for i, vertex in vertices.items() if len(vertex) > 0)
 
-    for i, vertex in vertices.items():
-        if (len(vertex)):
-            normalized_vertex = [(vertex[0] - x_min) / (x_max - x_min),
-                                 (vertex[1] - y_min) / (y_max - y_min),
-                                 vertex[2]]
-            vertices[i] = normalized_vertex
+    if(x_max - x_min > 0 and y_max - y_min > 0):
+        for i, vertex in vertices.items():
+            if (len(vertex)):
+                normalized_vertex = [(vertex[0] - x_min) / (x_max - x_min),
+                                     (vertex[1] - y_min) / (y_max - y_min),
+                                     vertex[2]]
+                vertices[i] = normalized_vertex
 
 def is_empty_vertices(vertices):   
     for i, vertex in vertices.items():
