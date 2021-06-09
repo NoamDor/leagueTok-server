@@ -88,6 +88,11 @@ def normalize_frame(vertices):
                                  vertex[2]]
             vertices[i] = normalized_vertex
 
+def is_empty_vertices(vertices):   
+    for i, vertex in vertices.items():
+        if len(vertex) != 0:
+            return False
+    return True
 
 if __name__ == '__main__':
     main()
