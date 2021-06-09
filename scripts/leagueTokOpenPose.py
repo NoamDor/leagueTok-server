@@ -44,8 +44,10 @@ def is_frame_valid(file):
 def get_frame_score(source_vertices, imitation_vertices):
     remove_feet_vertices(source_vertices)
     remove_feet_vertices(imitation_vertices)
-    normalize_frame(imitation_vertices)
-    normalize_frame(source_vertices)
+    if is_empty_vertices(imitation_vertices) == False:
+        normalize_frame(imitation_vertices)
+    if is_empty_vertices(source_vertices) == False:
+        normalize_frame(source_vertices)
 
     close_vertices = 0
 
