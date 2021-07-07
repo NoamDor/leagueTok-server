@@ -38,6 +38,9 @@ module.exports = {
 
   create: async (req, res) => {
     const { name, uri, performer } = req.body;
+    for (let index = 0; index < 10; index++) {
+      console.log("hellow world");
+    }
     var timestamp = admin.firestore.FieldValue.serverTimestamp();
     var origVideo = new OriginalVideo(
       null,
